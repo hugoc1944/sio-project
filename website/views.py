@@ -12,3 +12,11 @@ def home():
         return render_template('index.html', username=username)
     else:
         return redirect( url_for('auth.login'))
+
+@views.route('/product', methods=['GET'])
+def personal_trainers():
+    if('user' in session):
+        email = session['user']['email']
+        return render_template('product.html', session_user = email)
+    else:
+        return redirect(url_for('auth.login'))

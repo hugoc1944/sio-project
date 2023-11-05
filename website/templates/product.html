@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Detizone - Product{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/product.css')}}">
+{% endblock %}
+<div class="d-flex flex-column" style="min-height: 990px;"></div>
+{% block body %}
+
+
+<section class="container product my-5 pt-5">
+    <div class="row mt-5">
+        <div class="col-lg-5 col-md-12 col-12">
+            
+            <img class="img-fluid w-100 pb-1" src="{{url_for('static',filename='images/hoodies/beige.jpg')}}" id="MainImage" alt="test"> 
+            
+            <div class="small-img-group">
+                <div class="small-img-col">
+                    <img src="{{url_for('static',filename='images/hoodies/red.jpg')}}" alt="test" width="100%" class="small-img">
+                </div>
+                <div class="small-img-col">
+                    <img src="{{url_for('static',filename='images/hoodies/purple.jpg')}}" alt="test" width="100%" class="small-img">
+                </div>
+                <div class="small-img-col">
+                    <img src="{{url_for('static',filename='images/hoodies/blue.jpg')}}" alt="test" width="100%" class="small-img">
+                </div>
+                <div class="small-img-col">
+                    <img src="{{url_for('static',filename='images/hoodies/beige.jpg')}}" alt="test" width="100%" class="small-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mx-5 mt-3 col-md-12 col-12">
+            <h6>Home / Hoodie</h6>
+            <h3 class="py-4">Beige Hoodie</h3>
+            <h2> 40.00€ </h2>
+            <select class="my-3">
+                <option>Select Size</option>
+                <option>XXL</option>
+                <option>XL</option>
+                <option>Large</option>
+                <option>Medium</option>
+                <option>Small</option>
+            </select>
+            <input type="number" value="1">
+            <button class="action_btn">Add to cart</button>
+            <h4 class="mt-5 mb-5">Product Details</h4>
+            <span>This hoodie is made from fleece and is generally warmer and more comfortable than those made from cotton.
+                This hoodie is made of high-quality materials that will keep you warm and comfortable all season long.
+                This hoodie was created by the students of the DETI</span>
+        </div>
+    </div>
+</section>
+
+<script src="{{url_for('static', filename='javascript/product.js')}}"></script>
+{% endblock %}
+
+
+
