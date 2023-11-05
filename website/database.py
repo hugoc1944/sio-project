@@ -13,8 +13,7 @@ def setup_database():
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
         username TEXT NOT NULL,
-        type TEXT,
-        plansId TEXT
+        type TEXT
     );"""
 
     account1 = """INSERT OR IGNORE INTO users (email, password, username, type)
@@ -97,3 +96,25 @@ def add_user(email, password, username):
         INSERT INTO users (email, password, username)
         VALUES (?, ?, ?);
         """, (email, generate_password_hash(password), username))
+
+def get_type(email):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT type FROM users
+            WHERE email = '{email}';
+            """)
+        type = cur.fetchall()[0][0]
+        return type
+
+    
+def get_admins():
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT email FROM users
+            WHERE type = "0";
+            """)
+        emails = cur.fetchall()
+        return emails
+        

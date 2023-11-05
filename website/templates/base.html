@@ -68,6 +68,66 @@
   </header>
   {% block body %}
   {% endblock %}
+
+  <div id="chatBox" class="chatBox">
+    <button class="close-btn" id="close-btn">
+      <i class="fas fa-times"></i>
+    </button>
+    <form method="post" action="/conversations" id="conversationsForm">
+      <button class="back-btn" id="back-btn" type="submit">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </form>
+    <h2 class="text-center">Mensagens</h2>
+    <hr>
+    <div class="message-container">
+      <div class="messages" id="messages"></div>
+    </div>
+    <div class="row inputChat">
+      <div class="col-7 message_col">
+        <input type="text" placeholder="Message" name="message" id="message" />
+      </div>
+      <div class="col-3 mx-3">
+        <button type="button" name="send" id="send-btn" onClick="sendMessage()">
+          Enviar
+        </button>
+      </div>
+    </div>
+    <script src="{{url_for('static', filename='javascript/messages.js')}}"></script>
+    {% for msg in messages %}
+    <script type="text/javascript">
+      socketio.on("connect", () => {
+        createMessage("{{msg.name}}", "{{msg.message}}");
+      })
+    </script>
+    {% endfor %}
+  </div>
+  
+  <form method="post" action="/conversations" id="conversationsForm">
+    <button class="chatStickyBtn" id="chatStickyBtn" type="submit">
+      <i class="fas fa-comment"></i>
+    </button>
+  </form>
+  
+  <div id="allChat" class="chatBox">
+    <button class="close-btn" id="close-btn-all">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2 class="text-center">Conversas</h2>
+    <hr>
+    <div class="conversas" id="conversas"></div>
+  </div>
+  
+  <!-- Chatbox Javascript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="{{url_for('static', filename='javascript/chat.js')}}"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"
+  ></script>
+
+
   <footer class="footer">
     <div class="container">
       <p>© 2023 DETI, Universidade de Aveiro</p>
