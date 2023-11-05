@@ -50,8 +50,6 @@ def connect(auth):
 
 def message(data):
     room = session.get('room')
-    if "<" in data["data"] or ">" in data["data"]:
-        return
     if not conversation_exists(room):
         return
     content = {

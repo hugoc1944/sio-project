@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Detizone - Profile{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/profile.css')}}">
+{% endblock %}
+{% block beforenav %}
+<div class="d-flex flex-column" style="min-height: 100vh;">
+{% endblock %}
+{% block body %}
+<div class="profile">
+        <div id="profile-password">
+            <div class="settings">
+                <div class="mb-4">
+                    O teu email:
+                    <input type="email" id="email-input" name="your-email" class="form-control form-control-lg" value="{{email}}" disabled placeholder=" ">
+                </div>
+                <form action="/profile" method="POST">
+                    <h2 class="fw-bold mb-2 text-uppercase">Mudar Password</h2>
+                    <p class="mb-5">Por favor insira a sua password atual e a sua password nova!</p>
+                    <div class="mb-4">
+                        <input type="password" id="old-password" name="old-password" class="form-control form-control-lg" placeholder="Password Atual">
+                        <span id="old-password-error"></span>
+                    </div>
+                    <div class="mb-4">
+                        <input type="password" id="new-password" name="new-password" class="form-control form-control-lg" placeholder="Password Nova">
+                        <span id="new-password-error"></span>
+                    </div>
+                    <div class="mb-4">
+                        <input type="password" id="confirm-password" name="confirm-password" class="form-control form-control-lg" placeholder="Confirmar Password">
+                        <span id="confirm-password-error"></span>
+                    </div>
+                    <div class="text-center">
+                        <button class="action_btn" type="button" id="change-password">Mudar Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="profile-tabs">
+        <div class="profile-image">
+            <img alt="profile-image" src="{{ url_for('static', filename='images/default.png') }}">
+            <div class="profile-username">{{username}}</div>
+        </div>
+    </div>
+</div> <!-- Ending the 100vh div -->
+<script src="{{url_for('static', filename='javascript/profile.js')}}"></script>
+{% endblock %}
