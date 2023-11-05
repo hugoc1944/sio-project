@@ -69,6 +69,19 @@ header{
 .action_btn:active{
     scale: 0.95;
 }
+.logout_btn{
+    background-color: rgb(137, 0, 0);
+    font-family: 'Open Sans', sans-serif !important;
+    color: rgb(247,247,247);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+}
+.logout_btn:hover{
+    color: rgb(247, 247, 247);
+}
+
 
 /*Dropdown Menu*/
 .dropdown_menu{
