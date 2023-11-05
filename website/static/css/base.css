@@ -98,6 +98,25 @@ header{
     display: flex !important;
     justify-content: center;
 }
+
+/*Footer*/
+.footer{
+    width: 100%;
+    background-color: rgb(14, 7, 27);
+    padding: 20px 0;
+}
+.footer .container{
+    max-width: 1170px;
+    margin: auto;
+}
+.footer .container p{
+    font-family: 'Open Sans', sans-serif;
+    color: rgb(255, 255, 255);
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 12px;
+}
+
 /*Responsive Design*/
 @media (max-width: 992px){
     .navbar .links,.navbar .action_btn{
