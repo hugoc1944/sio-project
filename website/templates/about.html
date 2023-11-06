@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Detizone - about{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/about.css')}}">
+{% endblock %}
+<div class="d-flex flex-column" style="min-height: 990px;"></div>
+{% block body %}
+
+<section>
+    <div class="about-section">
+        <h1>About Us Page</h1>
+        <p>This is the about us page of the project of Segurança Informática e nas Organizações</p>
+        <p>This project was done by:</p>
+        <p>Hugo Curto Nmec: 107654;</p>
+        <p>Gonçalo Oliveira Nmec: 108405;</p>
+        <p>João Rodrigues Nmec: 108045;</p>
+        <p>Ricardo Dias Nmec: 108598;</p>
+      </div>  
+
+    <!-- <img class="img-fluid w-50 pb-1" src="{{url_for('static',filename='images/campus.png')}}" id="MainImage" alt="test">  -->
+      
+    <div class="about-description">
+      <h3>Project description</h3>
+      <p>In this assignment we an online shop specializing in DETI memorabilia at the
+        University of Aveiro, encompassing products likemugs, cups,<br> t-shirts, and hoodies.</p>
+        <p>In this project we implemented some CWE that were requested such as:</p>
+        <p>CWE-79 (Cross-Site Scripting) <br>CWE-89 (SQL Injection)</p>
+        <p>We also implemented others vulnerabilities:</p>
+        <p>TBA...</p>
+        <p>TBA...</p>
+        <p>TBA...</p>
+        <p>TBA...</p>
+    </div>
+</section>
+
+{% endblock %}

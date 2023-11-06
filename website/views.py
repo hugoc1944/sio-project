@@ -51,3 +51,18 @@ def product():
             return render_template('product.html', session_user = email, reviews = get_review(email))
         else:
             return redirect(url_for('auth.login'))
+
+@views.route('/about', methods=['GET', 'POST'])
+def about():
+    if request.method == 'POST':
+        email = session['user']['email']
+        ratings = request.form['ratings']
+        reviews = request.form['p-review']
+        add_review(email, ratings, reviews)
+        return render_template('about.html', session_user = email, reviews = get_review(email))
+    else:
+        if('user' in session):
+            email = session['user']['email']
+            return render_template('about.html', session_user = email, reviews = get_review(email))
+        else:
+            return redirect(url_for('auth.login'))
