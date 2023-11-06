@@ -51,9 +51,9 @@
         <section class="wrapper">
             <div class="review-container">
                 <h1>Post a Review</h1>
-                <div class="post-review">
+                <form class="post-review" method="POST" action="/product">
                     <label for="evaluation">Product Evaluation*</label>
-                    <select id="ratings" name="Ratings">
+                    <select id="ratings" name="ratings">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -62,20 +62,22 @@
                     </select>
                     <label for="product-review">Write your Review*</label>
                     <textarea id="p-review" name="p-review"></textarea>
-                    <a href="#" class="action_btn">Send Review</a>
-                </div>
+                    <button id="review-button" class="action_btn">Send Review</button>
+                </form>
                 <div class="reviews">
-                    <div id="r1" class="review">
+                    {% for review in reviews %}
+                    <div class="review">
                         <ul class="userID">
                             <li><img src="{{url_for('static',filename='images/default.png')}}" alt="Avatar"/></li>
-                            <li>Username</li>
+                            <li>{{session_user}}</li>
                         </ul>
                         <ul>
-                            <li>Rating: 4</li>
+                            <li>Rating: {{review[0]}}</li>
                             <li>24/07/23</li>
                         </ul>
-                        <p class="rtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                        <p class="rtext">{{review[1]}}</p>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>

@@ -2,11 +2,9 @@
 {% block title %}Detizone{% endblock %}
 {% block head %}
 <!--LightSlider-css-->
-<link rel="stylesheet" type="text/css" href="../static/css/lightslider.css">
-<!--JQuery-->
-<script type="text/javascript" src="../static/javascript/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css">
 <!--LightSlider-js-->
-<script type="text/javascript" src="../static/javascript/lightslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
 {% endblock %}
 {% block body %}
 <section class="container">
@@ -136,5 +134,5 @@
 </section>
 
 
-<script type="text/javascript" src="../static/javascript/script.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='javascript/index.js')}}"></script>
 {% endblock %}

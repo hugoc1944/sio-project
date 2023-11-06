@@ -37,10 +37,17 @@ def profile():
         else:
             return redirect(url_for('auth.login'))    
 
-@views.route('/product', methods=['GET'])
-def personal_trainers():
-    if('user' in session):
+@views.route('/product', methods=['GET', 'POST'])
+def product():
+    if request.method == 'POST':
         email = session['user']['email']
-        return render_template('product.html', session_user = email)
+        ratings = request.form['ratings']
+        reviews = request.form['p-review']
+        add_review(email, ratings, reviews)
+        return render_template('product.html', session_user = email, reviews = get_review(email))
     else:
-        return redirect(url_for('auth.login'))
+        if('user' in session):
+            email = session['user']['email']
+            return render_template('product.html', session_user = email, reviews = get_review(email))
+        else:
+            return redirect(url_for('auth.login'))

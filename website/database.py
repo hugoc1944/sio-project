@@ -16,6 +16,13 @@ def setup_database():
         type TEXT
     );"""
 
+    review_table = """ CREATE TABLE IF NOT EXISTS reviews ( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
+        ratings TEXT NOT NULL,
+        review TEXT NOT NULL
+    );"""
+
     account1 = """INSERT OR IGNORE INTO users (email, password, username, type)
         VALUES (?, ?, ?, '0');
         """
@@ -28,6 +35,7 @@ def setup_database():
     
     with sqlite3.connect(db_path) as con:
         con.execute(user_table)
+        con.execute(review_table)
 
         con.execute(account1, ('conta1@ua.pt', generate_password_hash('conta12'), 'Jonas'))
         con.execute(account2, ('conta2@ua.pt', generate_password_hash('conta12'), 'Pedro'))
@@ -96,6 +104,23 @@ def add_user(email, password, username):
         INSERT INTO users (email, password, username)
         VALUES (?, ?, ?);
         """, (email, generate_password_hash(password), username))
+
+def add_review(email, review, rating):
+    with sqlite3.connect(db_path) as con:
+        con.execute("""
+        INSERT INTO reviews (email, ratings, review)
+        VALUES (?, ?, ?);
+        """, (email, rating, review))
+
+def get_review(email):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT review, ratings FROM reviews
+            WHERE email = '{email}';
+            """)
+        review = cur.fetchall()
+        return review
 
 def get_type(email):
     with sqlite3.connect(db_path) as con:
