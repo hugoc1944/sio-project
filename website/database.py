@@ -23,6 +23,17 @@ def setup_database():
         review TEXT NOT NULL
     );"""
 
+    products_table = """ CREATE TABLE IF NOT EXISTS products ( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        quantity TEXT NOT NULL,
+        stock BOOLEAN,
+        description TEXT NOT NULL,
+        name TEXT NOT NULL,
+        file_path VARCHAR(255) NOT NULL,
+        price TEXT NOT NULL,
+        categories TEXT NOT NULL
+    );"""
+
     account1 = """INSERT OR IGNORE INTO users (email, password, username, type)
         VALUES (?, ?, ?, '0');
         """
@@ -36,6 +47,7 @@ def setup_database():
     with sqlite3.connect(db_path) as con:
         con.execute(user_table)
         con.execute(review_table)
+        con.execute(products_table)
 
         con.execute(account1, ('conta1@ua.pt', generate_password_hash('conta12'), 'Jonas'))
         con.execute(account2, ('conta2@ua.pt', generate_password_hash('conta12'), 'Pedro'))
@@ -112,12 +124,11 @@ def add_review(email, review, rating):
         VALUES (?, ?, ?);
         """, (email, rating, review))
 
-def get_review(email):
+def get_review():
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
         cur.execute(f"""
             SELECT review, ratings FROM reviews
-            WHERE email = '{email}';
             """)
         review = cur.fetchall()
         return review
@@ -142,4 +153,19 @@ def get_admins():
             """)
         emails = cur.fetchall()
         return emails
-        
+
+def get_products():
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT quantity, stock, description, name, file_path, price, categories FROM products;
+            """)
+        products = cur.fetchall()
+        return products
+    
+def add_products(quantity, stock, description, name, file_path, price, categories):
+    with sqlite3.connect(db_path) as con:
+        con.execute("""
+        INSERT INTO products (quantity, stock, description, name, file_path, price, categories)
+        VALUES (?, ?, ?, ?, ?, ?, ?);
+        """, (quantity, stock, description, name, file_path, price, categories))

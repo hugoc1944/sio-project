@@ -40,6 +40,9 @@
             <img alt="profile-image" src="{{ url_for('static', filename='images/default.png') }}">
             <div class="profile-username">{{username}}</div>
             <a href="/logout" class="logout_btn mt-3">Logout</a>
+            {% if type == '0' %}
+            <a href="/add_product" class="add_btn mt-3">Add Product</a>
+            {% endif %}
         </div>
     </div>
 </div> <!-- Ending the 100vh div -->

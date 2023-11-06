@@ -82,6 +82,19 @@ header{
     color: rgb(247, 247, 247);
 }
 
+.add_btn{
+    background-color: rgb(0, 137, 75);
+    font-family: 'Open Sans', sans-serif !important;
+    color: rgb(247,247,247);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+}
+.add_btn:hover{
+    color: rgb(247, 247, 247);
+}
+
 
 /*Dropdown Menu*/
 .dropdown_menu{
