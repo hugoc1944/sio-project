@@ -86,6 +86,21 @@ def products():
     else:
         return redirect(url_for('auth.login'))
     
+@views.route('/cart', methods=['GET'])
+def cart():
+    if ('user' in session):
+        return render_template('cart.html',user=session['user']["username"])
+    else:
+	    return redirect(url_for('auth.login'))
+ 
+@views.route('/checkout', methods=['GET'])
+def checkout():
+    if ('user' in session):
+        return render_template('checkout.html',user=session['user']["username"])
+    else:
+	    return redirect(url_for('auth.login'))
+ 
+ 
 @views.route("/add_product", methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':

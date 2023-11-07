@@ -1,0 +1,138 @@
+*{
+    font-family: "Open Sans", sans-serif;
+}
+ul{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    background-color: rgb(201, 171, 255) !important;
+}
+.c-wrapper{
+    width: 85%;
+    background-color: rgb(255,255,255);
+    box-shadow: 0px 0px 20px rgba(99, 42, 206, 0.863);
+    margin: 50px auto;
+    position: relative;
+    padding: 30px 0;
+    padding-left: 50px;
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+.shadow-line{
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.336);
+    box-shadow: 2px 1px 3px rgba(0, 0, 0, 0.678);
+}
+/*Panel Left*/
+.c-wrapper .c-left h1{
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 3px;
+}
+.c-wrapper .c-left .l-box{
+    padding: 10px 0;
+    margin-left: 30px;
+    margin-top: 40px;
+}
+.c-wrapper .c-left .l-box h2{
+    font-size:19px;
+    font-weight: 500;
+}
+.c-wrapper .c-left .l-box .l-inputs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 20px;
+    margin: 20px 0;
+}
+.c-wrapper .c-left .l-box .l-inputs li label{
+    font-size: 16px;
+}
+.c-wrapper .c-left .l-box .l-inputs li input{
+    border: none;
+    background-color: rgb(209, 209, 209);
+    border-radius: 5px;
+    padding: 5px;
+    width: 70%;
+    margin-top: 5px;
+}
+#email{
+    width: 90%;
+}
+.c-wrapper .c-left .l-box .action_btn{
+    padding: 7px 35px;
+    background-color: rgb(99, 42, 206);
+    color: rgb(255,255,255);
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*Panel Right*/
+.c-wrapper .c-right{
+    background-color: rgb(99, 42, 206);
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding: 15px 30px;
+    padding-top: 50px;
+    color: rgb(255,255,255);
+    margin-left: 5px;
+}
+.c-wrapper .c-right h1{
+    font-size: 26px;
+    font-weight: 500;
+}
+.c-wrapper .c-right .r-box{
+    margin-top: 15px;
+}
+.c-wrapper .c-right .r-box p{
+    font-size: 40px;
+}
+.c-wrapper .c-right .r-box p span{
+    font-size: 14px;
+}
+.c-wrapper .c-right .r-box ul{
+    margin-top: 30px;
+}
+.c-wrapper .c-right .r-box ul li{
+    padding: 5px;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+.c-wrapper .c-right .r-box ul li i{
+    margin-right: 4px;
+    font-size: 18px;
+}
+.c-wrapper .c-left .l-box .l-pay{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.c-wrapper .c-left .l-box .l-pay li label{
+    font-size: 16px;
+}
+.c-wrapper .c-left .l-box .l-pay li input{
+    border: none;
+    background-color: rgb(209, 209, 209);
+    border-radius: 5px;
+    padding: 5px;
+    width: 50%;
+    margin-top: 5px;
+}
+#ccard{
+    width: 80%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
