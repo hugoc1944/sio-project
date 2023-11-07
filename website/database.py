@@ -163,9 +163,52 @@ def get_products():
         products = cur.fetchall()
         return products
     
+def get_specific_products(categories):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT id, categories FROM products;
+            """)
+        products = cur.fetchall()
+        ids = set()
+        
+        # Find products that match the specified categories
+        for product in products:
+            product_cat = product[1].capitalize().split(" ")
+            print(product_cat)
+            for category in categories:
+                print(category)
+                if category in product_cat:
+                    ids.add(product[0])
+
+        print(ids)
+        if ids:
+            # Create a comma-separated string of IDs
+            ids_str = ",".join(map(str, ids))
+            
+            # Execute the query to retrieve products with matching IDs
+            cur.execute(f"""
+                SELECT quantity, stock, description, name, file_path, price, categories FROM products
+                WHERE id IN ({ids_str});
+            """)
+            products = cur.fetchall()
+            return products
+        else:
+            return []  # No matching products found
+    
 def add_products(quantity, stock, description, name, file_path, price, categories):
     with sqlite3.connect(db_path) as con:
         con.execute("""
         INSERT INTO products (quantity, stock, description, name, file_path, price, categories)
         VALUES (?, ?, ?, ?, ?, ?, ?);
         """, (quantity, stock, description, name, file_path, price, categories))
+
+def get_products_by_name(name):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT quantity, stock, description, name, file_path, price, categories FROM products
+            WHERE name = '{name}';
+            """)
+        products = cur.fetchone()
+        return products

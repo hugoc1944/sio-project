@@ -4,9 +4,12 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/products.css')}}">
 {% endblock %}
 {% block body %}
+<form method="POST" action="/products">
+    <input type="text" name="query" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
 <div class="container">
     <h1>Products</h1>
-    {% if user %}
     <p>Welcome, {{ user }}!</p>
     <table class="table table-bordered">
         <thead>
@@ -22,18 +25,21 @@
         <tbody>
             {% for product in lista %}
             <tr>
-                <td>{{ product[3] }}</td>
+                <td><a href="/product?value={{ product[3] }}">{{ product[3] }}</a></td>
                 <td>{{ product[2] }}</td>
                 <td>${{ product[5] }}</td>
                 <td>{{ product[0] }}</td>
-                <td>{{ product[1] }}</td>
+                <td>
+                    {% if product[1] == 1 %}
+                    In Stock
+                    {% else %}
+                    Out of Stock
+                    {% endif %}
+                </td>
                 <td>{{ product[6] }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% else %}
-    <p>Please <a href="{{ url_for('auth.login') }}">log in</a> to view the products.</p>
-    {% endif %}
 </div>
 {% endblock %}

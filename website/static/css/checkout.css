@@ -71,7 +71,6 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }
-
 /*Panel Right*/
 .c-wrapper .c-right{
     background-color: rgb(99, 42, 206);
@@ -113,7 +112,6 @@ body{
     margin-top: 20px;
     margin-bottom: 40px;
 }
-
 .c-wrapper .c-left .l-box .l-pay li label{
     font-size: 16px;
 }

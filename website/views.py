@@ -42,15 +42,21 @@ def profile():
 @views.route('/product', methods=['GET', 'POST'])
 def product():
     if request.method == 'POST':
+        value = request.args.get('value')
+        product = get_products_by_name(value)
+        image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
         email = session['user']['email']
         ratings = request.form['ratings']
         reviews = request.form['p-review']
         add_review(email, ratings, reviews)
-        return render_template('product.html', session_user = email, reviews = get_review())
+        return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
     else:
         if('user' in session):
+            value = request.args.get('value')
+            product = get_products_by_name(value)
+            image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
             email = session['user']['email']
-            return render_template('product.html', session_user = email, reviews = get_review())
+            return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
         else:
             return redirect(url_for('auth.login'))
 
@@ -69,23 +75,6 @@ def about():
         else:
             return redirect(url_for('auth.login'))
         
-@views.route('/search', methods=['GET'])
-def products_search():
-    lista_produtos = get_products()
-    if ('user' in session):
-        return render_template('products.html',lista=lista_produtos,user=session['user']["username"])
-    else:
-	    return redirect(url_for('auth.login'))
-
-@views.route("/products", methods=['GET'])
-def products():
-    print(get_products())
-    lista_produtos = get_products()
-    if ('user' in session):
-        return render_template('products.html',lista=lista_produtos,user=session['user']["username"])
-    else:
-        return redirect(url_for('auth.login'))
-    
 @views.route('/cart', methods=['GET'])
 def cart():
     if ('user' in session):
@@ -101,6 +90,20 @@ def checkout():
 	    return redirect(url_for('auth.login'))
  
  
+
+@views.route("/products", methods=['GET', 'POST'])
+def products():
+    if request.method == 'POST':
+        query = request.form['query'].capitalize().split(" ")
+
+        lista_produtos = get_specific_products(query)
+        return render_template('products.html',lista=lista_produtos,user=session['user']["username"])
+    else:
+        if ('user' in session):
+            return render_template('products.html',lista=get_products(),user=session['user']["username"])
+        else:
+            return redirect(url_for('auth.login'))
+    
 @views.route("/add_product", methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
