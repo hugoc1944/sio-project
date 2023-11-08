@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Detizone - about{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/about.css')}}">
+{% endblock %}
+<div class="d-flex flex-column" style="min-height: 990px;"></div>
+{% block body %}
+
+<section class="about">
+    <div class="about-section">
+        <h1>About Us Page</h1>
+        <p>This is the about us page of the project of Segurança Informática e nas Organizações</p>
+        <p>This project was done by:</p>
+        <p>Hugo Curto Nmec: 107654; Gonçalo Oliveira Nmec: 108405;</p>
+        <img class="img-fluid w-10" src="{{url_for('static',filename='images/about/campus.png')}}" alt="Hugo">
+        <img class="img-fluid w-10" src="{{url_for('static',filename='images/about/goncalo.jpeg')}}" alt="Gonçalo">
+        <p>João Rodrigues Nmec: 108045; Ricardo Dias Nmec: 108598;</p>
+        <img class="img-fluid w-10" src="{{url_for('static',filename='images/about/campus.png')}}" alt="Rafael">
+        <img class="img-fluid w-10" src="{{url_for('static',filename='images/about/campus.png')}}" alt="Ricardo">
+      </div>  
+      
+    <div class="about-description">
+      <h3>Project description</h3>
+      <p>The assignment focuses on vulnerabilities in software projects, their exploration, and prevention. 
+        We were required to develop a small online shop application selling memorabilia for the Department of Electronics, 
+        Telecommunications, and Informatics (DETI) at the University of Aveiro. The online shop features items like mugs, cups, 
+        t-shirts, hoodies, and similar memorabilia.</p>
+        <p>In this project we implemented some CWE that were requested such as:</p>
+        <p>CWE-79 (Cross-Site Scripting) <br>CWE-89 (SQL Injection)</p>
+        <p>We also implemented others vulnerabilities:</p>
+        <p>TBA...</p>
+        <p>TBA...</p>
+        <p>TBA...</p>
+        <p>TBA...</p>
+    </div>
+    <div>
+      <h3>Our company is located here:</h3>
+      <img class="img-fluid w-10" src="{{url_for('static',filename='images/about/campus.png')}}" alt="test"> 
+    </div>
+</section>
+
+{% endblock %}

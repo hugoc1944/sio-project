@@ -1,0 +1,52 @@
+/* static/css/products.css */
+/* Add your custom styles here */
+.container {
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+}
+
+.table th {
+    background-color: #f0f0f0;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+/* Search bar container */
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+/* Search input field */
+input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Search button */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Styling on hover for the button */
+button:hover {
+    background-color: #45a049;
+}
+

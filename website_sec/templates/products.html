@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Detizone - Products{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/products.css')}}">
+{% endblock %}
+{% block body %}
+<form method="POST" action="/products">
+    <input type="text" name="query" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
+<div class="container">
+    <h1>Products</h1>
+    <p>Welcome, {{ user }}!</p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Stock</th>
+                <th>Categories</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in lista %}
+            <tr>
+                <td><a href="/product?value={{ product[3] }}">{{ product[3] }}</a></td>
+                <td>{{ product[2] }}</td>
+                <td>${{ product[5] }}</td>
+                <td>{{ product[0] }}</td>
+                <td>
+                    {% if product[1] == 1 %}
+                    In Stock
+                    {% else %}
+                    Out of Stock
+                    {% endif %}
+                </td>
+                <td>{{ product[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
