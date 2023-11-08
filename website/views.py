@@ -158,3 +158,10 @@ def remove_item():
         remove_cart(quantity, name, user)
         add_quantity(name,quantity)
         return redirect(url_for('views.cart'))
+
+@views.route("/pay", methods=['POST'])
+def pay():
+    if request.method == 'POST':
+        user=session['user']['username']
+        pay_cart(user)
+        return redirect(url_for('views.home'))

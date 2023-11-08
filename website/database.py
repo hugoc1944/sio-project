@@ -293,3 +293,10 @@ def add_quantity(name, quantity):
             SET quantity = '{quantity}', stock = '{stock}'
             WHERE name = '{name}'
             """)
+        
+def pay_cart(user):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""DELETE FROM carts
+            WHERE user = '{user}'
+            """)
