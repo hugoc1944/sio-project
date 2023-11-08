@@ -1,6 +1,42 @@
 {% extends "base.html" %}
 {% block title %}Detizone{% endblock %}
 {% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/cart.css')}}">
 {% endblock %}
 {% block body %}
+
+<div class="container mt-5">
+    <div class="cart-container">
+        <h1 class="mb-4">Your Shopping Cart</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <form method="POST" action="/remove_item">
+                    <tr>
+                        <td>{{ item[2] }}</td>
+                        <input style="display: none;" name="name" value="{{ item[2] }}">
+                        <td>{{ item[0] }}</td>
+                        <input style="display: none;" name="quantity" value="{{ item[0] }}">
+                        <td>{{ item[1] }}</td>
+                        <input style="display: none;" name="price" value="{{ item[1] }}">
+                        <td>
+                                <button class="btn btn-danger action-button" type="submit">Remove</button>
+                            
+                        </td>
+                    </tr></form>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="action_btn" href="/checkout">Checkout</a>
+    </div>
+</div>
+
 {% endblock %}

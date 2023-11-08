@@ -51,7 +51,7 @@ header{
     cursor: pointer;
     display: none;
 }
-.col-r .action_btn{
+.col-r .action_btn, .action_btn{
     background-color: rgb(99, 42, 206);
     font-family: 'Open Sans', sans-serif !important;
     color: rgb(247,247,247);
@@ -63,7 +63,7 @@ header{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.col-r .action_btn:hover{
+.col-r .action_btn:hover, .action_btn:hover{
     scale: 1.05;
     color: rgb(255, 255, 255);
 }

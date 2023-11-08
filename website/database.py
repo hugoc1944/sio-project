@@ -28,10 +28,18 @@ def setup_database():
         quantity TEXT NOT NULL,
         stock BOOLEAN,
         description TEXT NOT NULL,
-        name TEXT NOT NULL,
+        name TEXT NOT NULL UNIQUE,
         file_path VARCHAR(255) NOT NULL,
         price TEXT NOT NULL,
         categories TEXT NOT NULL
+    );"""
+
+    carts_table = """CREATE TABLE IF NOT EXISTS carts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        quantity TEXT NOT NULL,
+        price TEXT NOT NULL,
+        name TEXT NOT NULL,
+        user TEXT NOT NULL
     );"""
 
     account1 = """INSERT OR IGNORE INTO users (email, password, username, type)
@@ -48,6 +56,7 @@ def setup_database():
         con.execute(user_table)
         con.execute(review_table)
         con.execute(products_table)
+        con.execute(carts_table)
 
         con.execute(account1, ('conta1@ua.pt', generate_password_hash('conta12'), 'Jonas'))
         con.execute(account2, ('conta2@ua.pt', generate_password_hash('conta12'), 'Pedro'))
@@ -174,14 +183,10 @@ def get_specific_products(categories):
         
         # Find products that match the specified categories
         for product in products:
-            product_cat = product[1].capitalize().split(" ")
-            print(product_cat)
+            product_cat = product[1].upper().split(" ")
             for category in categories:
-                print(category)
                 if category in product_cat:
                     ids.add(product[0])
-
-        print(ids)
         if ids:
             # Create a comma-separated string of IDs
             ids_str = ",".join(map(str, ids))
@@ -212,3 +217,79 @@ def get_products_by_name(name):
             """)
         products = cur.fetchone()
         return products
+    
+def get_product_quantity(name):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT quantity FROM products
+            WHERE name = '{name}';
+            """)
+        quantity = cur.fetchone()[0]
+        return quantity
+    
+def get_product_price(name):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT price FROM products
+            WHERE name = '{name}';
+            """)
+        price = cur.fetchone()[0]
+        return price
+    
+def update_quantity(name, quantity):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        beforeQ = get_product_quantity(name)
+        quantity = int(beforeQ) - int(quantity)
+        if quantity == 0:
+            stock = 0
+        else:
+            stock = 1
+        cur.execute(f"""
+            UPDATE products
+            SET quantity = '{quantity}', stock = '{stock}'
+            WHERE name = '{name}'
+            """)
+        
+def add_to_cart(name, quantity, user):
+    with sqlite3.connect(db_path) as con:
+
+        price = int(get_product_price(name)) * int(quantity)
+
+        con.execute("""
+        INSERT INTO carts (quantity, price, name, user)
+        VALUES (?, ?, ?, ?);
+        """, (quantity, price, name, user))
+
+def get_cart(user):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            SELECT quantity, price, name FROM carts
+            WHERE user = '{user}';
+            """)
+        cart = cur.fetchall()
+        return cart
+    
+def remove_cart(quantity, name, user):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+            DELETE FROM carts
+            WHERE quantity = ? AND name = ? AND user = ?
+            AND id = (SELECT id FROM carts WHERE quantity = ? AND name = ? AND user = ? LIMIT 1)
+        """, (quantity, name, user, quantity, name, user))
+
+def add_quantity(name, quantity):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        beforeQ = get_product_quantity(name)
+        quantity = int(beforeQ) + int(quantity)
+        stock = 1
+        cur.execute(f"""
+            UPDATE products
+            SET quantity = '{quantity}', stock = '{stock}'
+            WHERE name = '{name}'
+            """)

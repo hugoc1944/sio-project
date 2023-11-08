@@ -42,7 +42,7 @@ def profile():
 @views.route('/product', methods=['GET', 'POST'])
 def product():
     if request.method == 'POST':
-        value = request.args.get('value')
+        value = session['value']
         product = get_products_by_name(value)
         image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
         email = session['user']['email']
@@ -52,11 +52,17 @@ def product():
         return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
     else:
         if('user' in session):
-            value = request.args.get('value')
-            product = get_products_by_name(value)
-            image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
-            email = session['user']['email']
-            return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
+            try:
+                value = request.args.get('value')
+                product = get_products_by_name(value)
+                image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
+                session['value'] = value
+                email = session['user']['email']
+                return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
+            except TypeError:
+                email = session['user']['email']
+                product = get_products_by_name(value)
+                return render_template('product.html', session_user = email, reviews = get_review(), product=product)
         else:
             return redirect(url_for('auth.login'))
 
@@ -78,7 +84,9 @@ def about():
 @views.route('/cart', methods=['GET'])
 def cart():
     if ('user' in session):
-        return render_template('cart.html',user=session['user']["username"])
+        user=session['user']["username"]
+        cart_items = get_cart(user)
+        return render_template('cart.html',user=user, cart_items=cart_items)
     else:
 	    return redirect(url_for('auth.login'))
  
@@ -94,7 +102,7 @@ def checkout():
 @views.route("/products", methods=['GET', 'POST'])
 def products():
     if request.method == 'POST':
-        query = request.form['query'].capitalize().split(" ")
+        query = request.form['query'].upper().split(" ")
 
         lista_produtos = get_specific_products(query)
         return render_template('products.html',lista=lista_produtos,user=session['user']["username"])
@@ -130,3 +138,23 @@ def add_product():
             return render_template('add_product.html',user=session['user']["username"])
         else:
             return redirect(url_for('auth.login'))
+        
+@views.route("/add_cart", methods=['POST'])
+def add_cart():
+    if request.method == 'POST':
+        user=session['user']["username"]
+        quantity = request.form['quantity']
+        value = session['value']
+        update_quantity(value, quantity)
+        add_to_cart(value, quantity, user)
+        return redirect(url_for('views.cart'))
+        
+@views.route("/remove_item", methods=['POST'])
+def remove_item():
+    if request.method == 'POST':
+        user=session['user']['username']
+        quantity = request.form['quantity']
+        name = request.form['name']
+        remove_cart(quantity, name, user)
+        add_quantity(name,quantity)
+        return redirect(url_for('views.cart'))
