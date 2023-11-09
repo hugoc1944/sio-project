@@ -21,11 +21,12 @@ function initializeSocketIO() {
 
   const messages = $("#messages");
   const createMessage = (name, msg) => {
+    escapedMsg = charForLoop(msg);
     if (sessionUserEmail == name){
       content = `
       <div class="message_box">
           <span>
-              ${msg}
+              ${escapedMsg}
           </span>
       </div>
       `;
@@ -34,7 +35,7 @@ function initializeSocketIO() {
       content = `
       <div class="message_box_other">
           <span>
-              ${msg}
+              ${escapedMsg}
           </span>
       </div>
       `;
@@ -42,6 +43,7 @@ function initializeSocketIO() {
     
     messages.append(content);
   };
+
 
   socketio.on("message", (data) => {
     createMessage(data.name, data.message);
@@ -72,3 +74,33 @@ $("#message").on("keydown", function (event) {
     sendMessage();
   }
 });
+var charForLoop = function (unescapedString) {
+  var i, character, escapedString = '';
+
+  for(i = 0; i < unescapedString.length; i += 1) {
+      character = unescapedString.charAt(i);
+      switch(character) {
+          case '<':
+              escapedString += '&lt;';
+              break;
+          case '>':
+              escapedString += '&gt;';
+              break;
+          case '&':
+              escapedString += '&amp;';
+              break;
+          case '/':
+              escapedString += '&#x2F;';
+              break;
+          case '"':
+              escapedString += '&quot;';
+              break;
+          case "'":
+              escapedString += '&#x27;';
+              break;
+          default:
+              escapedString += character;
+      } 
+    }
+    return escapedString;
+  };
