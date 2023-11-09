@@ -44,7 +44,7 @@ def product():
     if request.method == 'POST':
         value = session['value']
         product = get_products_by_name(value)
-        image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
+        image_path = product[4].replace("website_sec\\static\\", "").replace("\\", "/")
         email = session['user']['email']
         ratings = request.form['ratings']
         reviews = request.form['p-review']
@@ -55,7 +55,7 @@ def product():
             try:
                 value = request.args.get('value')
                 product = get_products_by_name(value)
-                image_path = product[4].replace("website\\static\\", "").replace("\\", "/")
+                image_path = product[4].replace("website_sec\\static\\", "").replace("\\", "/")
                 session['value'] = value
                 email = session['user']['email']
                 return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
@@ -122,7 +122,7 @@ def add_product():
         stock = request.form['stock']
         categories = request.form['categories']
 
-        upload_dir = os.path.join("website", "static", "images", "uploads")
+        upload_dir = os.path.join("website_sec", "static", "images", "uploads")
         file = request.files['image']
         if not os.path.exists(upload_dir):
             os.makedirs(upload_dir)
