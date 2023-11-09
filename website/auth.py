@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from .database import verify_user, add_user, get_user_password, get_username
+from .database import verify_user, add_user, get_user_password, get_username, check_password
 from werkzeug.security import check_password_hash
 import re
 regex = '^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$'  
@@ -15,18 +15,18 @@ class User():
 def login():
     if request.method == 'POST':
         email = request.form['email']
+        print(email)
+        print(email)
+        print(email)
+        print(email)
         password = request.form['password']
-        value = verify_user(email)
-        if (value == True):
-            if check_password_hash(get_user_password(email), password):
-                username = get_username(email)
-                session.permanent = True
-                session['user'] = {'email': email, 'username': username}
-                return redirect(url_for('views.home'))
-            else:
-                return render_template('login.html', incorrect_password = True, email=email)
+        if check_password(email, password):
+            username = get_username(email)
+            session.permanent = True
+            session['user'] = {'email': email, 'username': username}
+            return redirect(url_for('views.home'))
         else:
-            return render_template('login.html', incorrect_email = True)
+            return render_template('login.html', incorrect_password = True, email=email)
     else:
         return render_template('login.html')
 
@@ -39,10 +39,7 @@ def sign_up():
         username = request.form['username']
         errors = {}
         error_regist = 0
-        if(re.search(regex, email) == None):
-            errors["email"] = 1
-            error_regist = 1
-        elif(len(password) < 8):
+        if(len(password) < 8):
             errors["length"] = 1
             error_regist = 1
         elif(password != password_confirm):

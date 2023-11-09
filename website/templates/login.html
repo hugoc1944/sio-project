@@ -20,7 +20,7 @@
                                 <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                                 <p class="alpha-60 mb-5">Insira o seu email e password!</p>
                                 <div class="form-outline form-white mb-4">
-                                    <input type="email" id="email" name="email" {% if incorrect_email is defined %}value="{{email}}" {% endif %} class="form-control form-control-lg" placeholder="example@hotmail.com"/>
+                                    <input id="email" name="email" {% if incorrect_email is defined %}value="{{email | safe}}" {% endif %} class="form-control form-control-lg" placeholder="example@hotmail.com"/>
                                     <label class="form-label" for="email">Email</label>
                                     <span id="email-error">{% if incorrect_email is defined %}Você ainda não está registado.{% endif %}</span>
                                 </div>

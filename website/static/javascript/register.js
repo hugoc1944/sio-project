@@ -25,14 +25,8 @@ $('#email').on("focusout", function(){
     let emailError = document.getElementById('email-error')
     let email = document.getElementById('email')
     if(email.value.length > 0){
-        if(!email.value.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
-            emailError.innerHTML = "Please enter a valid email.";
-            email.style.borderColor = "red"
-        }
-        else{
-            email.style.borderColor = "green"
-            emailError.innerHTML = ""
-        }
+        email.style.borderColor = "green"
+        emailError.innerHTML = ""
     }
     else{
         email.style.borderColor = "white";

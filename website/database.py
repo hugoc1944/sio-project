@@ -1,7 +1,5 @@
 import sqlite3
 import os
-from werkzeug.security import generate_password_hash
-
 DB_STRING = "database.db"
 
 db_directory = os.path.dirname(os.path.abspath(__file__))
@@ -58,9 +56,9 @@ def setup_database():
         con.execute(products_table)
         con.execute(carts_table)
 
-        con.execute(account1, ('conta1@ua.pt', generate_password_hash('conta12'), 'Jonas'))
-        con.execute(account2, ('conta2@ua.pt', generate_password_hash('conta12'), 'Pedro'))
-        con.execute(account3, ('conta3@ua.pt', generate_password_hash('conta12'), 'Lima'))
+        con.execute(account1, ('conta1@ua.pt', 'conta12', 'Jonas'))
+        con.execute(account2, ('conta2@ua.pt', 'conta12', 'Pedro'))
+        con.execute(account3, ('conta3@ua.pt', 'conta12', 'Lima'))
 
 
 def cleanup_database():
@@ -84,12 +82,25 @@ def verify_user(user_email):
 def get_user_password(email):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute("""
+        cur.execute(f"""
         SELECT password FROM users
-        WHERE email = ?;
-        """, (email,))
+        WHERE email = '{email}';
+        """)
         user_password = cur.fetchall()[0]        
         return user_password[0]
+
+def check_password(email, password):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute(f"""
+        SELECT 1 FROM users
+        WHERE email = '{email}' AND password = '{password}';
+        """)
+        result = cur.fetchone()
+        print(email)
+        print(password)
+
+        return result is not None
     
 def update_password(email, new_password):
     with sqlite3.connect(db_path) as con:
@@ -97,25 +108,25 @@ def update_password(email, new_password):
         UPDATE users
         SET password = ?
         WHERE email = ?;
-        """, (generate_password_hash(new_password), email))
+        """, (new_password, email))
     
 def get_username(email):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute("""
+        cur.execute(f"""
         SELECT username FROM users
-        WHERE email = ?;
-        """, (email,))
+        WHERE email = '{email}';
+        """)
         username = cur.fetchall()[0]
         return username[0]
     
 def get_id(email):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute("""
+        cur.execute(f"""
         SELECT id FROM users
-        WHERE email = ?;
-        """, (email,))
+        WHERE email = '{email}';
+        """)
         id = cur.fetchall()[0]
         return id[0]
     
@@ -124,7 +135,7 @@ def add_user(email, password, username):
         con.execute("""
         INSERT INTO users (email, password, username)
         VALUES (?, ?, ?);
-        """, (email, generate_password_hash(password), username))
+        """, (email,password, username))
 
 def add_review(email, review, rating):
     with sqlite3.connect(db_path) as con:
