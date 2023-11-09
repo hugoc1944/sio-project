@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from .auth import session
 from .database import *
 from werkzeug.security import check_password_hash
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, safe_join, send_file
 
 views = Blueprint('views', __name__)
 
@@ -44,27 +44,36 @@ def product():
     if request.method == 'POST':
         value = session['value']
         product = get_products_by_name(value)
-        image_path = product[4].replace("website_sec\\static\\", "").replace("\\", "/")
         email = session['user']['email']
         ratings = request.form['ratings']
         reviews = request.form['p-review']
         add_review(email, ratings, reviews)
-        return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
+        return render_template('product.html', session_user = email, reviews = get_review(), product=product)
     else:
         if('user' in session):
             try:
                 value = request.args.get('value')
                 product = get_products_by_name(value)
-                image_path = product[4].replace("website_sec\\static\\", "").replace("\\", "/")
                 session['value'] = value
                 email = session['user']['email']
-                return render_template('product.html', session_user = email, reviews = get_review(), product=product, image_path=image_path)
+                return render_template('product.html', session_user = email, reviews = get_review(), product=product)
             except TypeError:
                 email = session['user']['email']
                 product = get_products_by_name(value)
                 return render_template('product.html', session_user = email, reviews = get_review(), product=product)
         else:
             return redirect(url_for('auth.login'))
+        
+@views.route("/show_photo") 
+def show_avatar(): 
+    if 'user' in session:
+        value = session['value']
+        product = get_products_by_name(value)[4]
+        path = safe_join(product)
+
+        return send_file(path, as_attachment=False, environ=request.environ)
+    else:
+        return redirect(url_for('auth.login'))
 
 @views.route('/about', methods=['GET', 'POST'])
 def about():
