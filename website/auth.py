@@ -15,10 +15,6 @@ class User():
 def login():
     if request.method == 'POST':
         email = request.form['email']
-        print(email)
-        print(email)
-        print(email)
-        print(email)
         password = request.form['password']
         if check_password(email, password):
             username = get_username(email)

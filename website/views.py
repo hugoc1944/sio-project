@@ -23,13 +23,18 @@ def profile():
 
         old_password = request.form['old-password']
         new_password = request.form['new-password']
-        if  (check_password_hash( get_user_password(email), old_password) == False):
+        if len(get_user_password(email)) != len(old_password):
             data = {'status': 404}
             return data
-        else:
-            update_password(email, new_password)
-            data = {'status': 200}
-            return data
+
+        for i in range(len(get_user_password(email))):
+            if get_user_password(email)[i] != old_password[i]:
+                data = {'status': 404}
+                return data
+
+        update_password(email, new_password)
+        data = {'status': 200}
+        return data
     else:
         if('user' in session):
             email = session['user']['email']

@@ -97,8 +97,6 @@ def check_password(email, password):
         WHERE email = '{email}' AND password = '{password}';
         """)
         result = cur.fetchone()
-        print(email)
-        print(password)
 
         return result is not None
     

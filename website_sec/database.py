@@ -58,9 +58,9 @@ def setup_database():
         con.execute(products_table)
         con.execute(carts_table)
 
-        con.execute(account1, ('conta1@ua.pt', generate_password_hash('conta12'), 'Jonas'))
-        con.execute(account2, ('conta2@ua.pt', generate_password_hash('conta12'), 'Pedro'))
-        con.execute(account3, ('conta3@ua.pt', generate_password_hash('conta12'), 'Lima'))
+        con.execute(account1, ('conta1@ua.pt', generate_password_hash('P$wD#123'), 'Jonas'))
+        con.execute(account2, ('conta2@ua.pt', generate_password_hash('S*ecRt99'), 'Pedro'))
+        con.execute(account3, ('conta3@ua.pt', generate_password_hash('K@pS&l@1'), 'Lima'))
 
 
 def cleanup_database():
@@ -145,10 +145,10 @@ def get_review():
 def get_type(email):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute(f"""
+        cur.execute("""
             SELECT type FROM users
-            WHERE email = '{email}';
-            """)
+            WHERE email = ?;
+            """, (email,))
         type = cur.fetchall()[0][0]
         return type
 
@@ -156,10 +156,10 @@ def get_type(email):
 def get_admins():
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute(f"""
+        cur.execute("""
             SELECT email FROM users
-            WHERE type = "0";
-            """)
+            WHERE type = ?;
+            """, ('0',))
         emails = cur.fetchall()
         return emails
 
@@ -192,10 +192,11 @@ def get_specific_products(categories):
             ids_str = ",".join(map(str, ids))
             
             # Execute the query to retrieve products with matching IDs
-            cur.execute(f"""
-                SELECT quantity, stock, description, name, file_path, price, categories FROM products
-                WHERE id IN ({ids_str});
-            """)
+            cur.execute("""
+                SELECT quantity, stock, description, name, file_path, price, categories
+                FROM products
+                WHERE id IN ({})
+                """.format(ids_str))
             products = cur.fetchall()
             return products
         else:
@@ -211,20 +212,20 @@ def add_products(quantity, stock, description, name, file_path, price, categorie
 def get_products_by_name(name):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute(f"""
+        cur.execute("""
             SELECT quantity, stock, description, name, file_path, price, categories FROM products
-            WHERE name = '{name}';
-            """)
+            WHERE name = ?;
+            """, (name,))
         products = cur.fetchone()
         return products
     
 def get_product_quantity(name):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
-        cur.execute(f"""
+        cur.execute("""
             SELECT quantity FROM products
-            WHERE name = '{name}';
-            """)
+            WHERE name = ?;
+            """, (name,))
         quantity = cur.fetchone()[0]
         return quantity
     
@@ -233,8 +234,8 @@ def get_product_price(name):
         cur = con.cursor()
         cur.execute(f"""
             SELECT price FROM products
-            WHERE name = '{name}';
-            """)
+            WHERE name = ?;
+            """, (name,))
         price = cur.fetchone()[0]
         return price
     
@@ -247,11 +248,11 @@ def update_quantity(name, quantity):
             stock = 0
         else:
             stock = 1
-        cur.execute(f"""
+        cur.execute("""
             UPDATE products
-            SET quantity = '{quantity}', stock = '{stock}'
-            WHERE name = '{name}'
-            """)
+            SET quantity = ?, stock = ?
+            WHERE name = ?;
+            """, (quantity, stock, name))
         
 def add_to_cart(name, quantity, user):
     with sqlite3.connect(db_path) as con:
@@ -268,8 +269,8 @@ def get_cart(user):
         cur = con.cursor()
         cur.execute(f"""
             SELECT quantity, price, name FROM carts
-            WHERE user = '{user}';
-            """)
+            WHERE user = ?;
+            """, (user,))
         cart = cur.fetchall()
         return cart
     
@@ -288,15 +289,15 @@ def add_quantity(name, quantity):
         beforeQ = get_product_quantity(name)
         quantity = int(beforeQ) + int(quantity)
         stock = 1
-        cur.execute(f"""
+        cur.execute("""
             UPDATE products
-            SET quantity = '{quantity}', stock = '{stock}'
-            WHERE name = '{name}'
-            """)
+            SET quantity = ?, stock = ?
+            WHERE name = ?;
+        """, (quantity, stock, name))
         
 def pay_cart(user):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
         cur.execute(f"""DELETE FROM carts
-            WHERE user = '{user}'
-            """)
+            WHERE user = ?;
+            """, (user,))

@@ -27,8 +27,8 @@ def get_chat_id(email):
         cur = con.cursor()
         cur.execute(f"""
         SELECT conversationID FROM conversations
-        WHERE email = '{email}'
-        """)
+        WHERE email = ?;
+        """, (email,))
         conversation = cur.fetchall()
         return conversation
     
@@ -36,8 +36,8 @@ def add_conversation(conversation_id, email):
     with sqlite3.connect(db_path) as con:
         con.execute(f"""
         INSERT INTO conversations (conversationID, email)
-        VALUES ('{conversation_id}','{email}');
-        """)
+        VALUES (?,?);
+        """, (conversation_id, email))
 
 def conversation_exists(conversation_id):
     
@@ -47,9 +47,9 @@ def conversation_exists(conversation_id):
         SELECT EXISTS(
             SELECT 1
             FROM conversations
-            WHERE conversationId = '{conversation_id}'
+            WHERE conversationID = ?
         )
-        """)
+        """, (conversation_id,))
         result = cur.fetchone()[0]
         return bool(result)
     
@@ -81,7 +81,7 @@ def get_users(conversation_id):
         cur = con.cursor()
         cur.execute(f"""
         SELECT email FROM conversations
-        WHERE conversationID = '{conversation_id}'
-        """)
+        WHERE conversationID = ?;
+        """, (conversation_id,))
         result = cur.fetchall()
         return result
